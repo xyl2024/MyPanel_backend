@@ -1,8 +1,8 @@
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from sqlalchemy import text
-from app.database import engine, Base
-from app.routers import todo
+from src.database import engine, Base
+from src.routers import todo
 
 
 # 创建所有表，如果表已存在则不重复创建

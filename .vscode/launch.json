@@ -1,0 +1,22 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "调试主程序",
+            "type": "debugpy", // 使用微软的debugpy作为调试器启动程序
+            "request": "launch", // 从头开启程序
+            "python": "${command:python.interpreterPath}", // 这个会自动获取 VSCode 当前选中的Python解释器路径, 就是右下角显示的那个
+            "module": "uvicorn", // 使用uvicorn模块
+            "args": [
+                "src.main:app",
+                "--reload", // 自动重启
+                "--host",
+                "localhost",
+                "--port",
+                "8000",
+            ],
+            "console": "integratedTerminal", // 在 VSCode 集成终端中运行, 支持热重载和 Ctrl+C 停止
+            "cwd": "${workspaceFolder}", // 设置工作目录为项目根目录，确保能找到 src/main.py
+        }
+    ]
+}

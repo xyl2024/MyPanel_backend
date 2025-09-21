@@ -24,18 +24,23 @@ class TodoBase(BaseModel):
     title: str
     description: Optional[str] = None
     completed: Optional[bool] = False
+    due_date: Optional[datetime] = None
     tag_id: int
 
 
-class TodoCreate(TodoBase):
-    pass
+class TodoCreate(BaseModel):
+    title: str
+    description: Optional[str] = None
+    due_date: Optional[datetime] = None
+    tag_name: str
 
 
 class TodoUpdate(BaseModel):
     title: Optional[str] = None
     description: Optional[str] = None
     completed: Optional[bool] = None
-    tag_id: Optional[int] = None
+    due_date: Optional[datetime] = None
+    tag_name: Optional[str] = None
 
 
 class TodoInDB(TodoBase):

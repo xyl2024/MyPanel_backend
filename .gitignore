@@ -9,6 +9,7 @@ wheels/
 # Virtual environments
 .venv
 
+learn/
 data/
 ai_context_helper.py
 output.md
