@@ -17,6 +17,7 @@
             ],
             "console": "integratedTerminal", // 在 VSCode 集成终端中运行, 支持热重载和 Ctrl+C 停止
             "cwd": "${workspaceFolder}", // 设置工作目录为项目根目录，确保能找到 src/main.py
+            "preLaunchTask": "Open Browser" // 调试开始后运行
         }
     ]
 }

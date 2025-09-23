@@ -1,6 +1,6 @@
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
-from sqlalchemy import text
+
 from src.database import engine, Base
 from src.routers import todo
 
@@ -25,7 +25,9 @@ async def lifespan(app: FastAPI):
     # 可以在这里添加清理代码，比如关闭数据库连接等
 
 
-app = FastAPI(title="MyPanel后端API", lifespan=lifespan)
+app = FastAPI(title="MyPanel后端API",
+              swagger_ui_parameters={"syntaxHighlight": {"theme": "obsidian"}},
+              lifespan=lifespan)
 
 app.include_router(todo.router)
 

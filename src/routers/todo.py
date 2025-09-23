@@ -1,5 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
+
 from src.database import get_db
 from src.repositories.todo_repository import TodoRepository
 from src.repositories.tag_repository import TagRepository
@@ -30,26 +31,29 @@ async def get_tag_service(db: AsyncSession = Depends(get_db)):
 
 # Tag 路由
 @router.post("/tags/", response_model=TodoTagInDB)
-async def create_tag_endpoint(
+async def create_tag(
     tag: TodoTagCreate, service: TagService = Depends(get_tag_service)
 ):
+    """
+    创建待办事项标签
+    """
     return await service.create_tag(tag)
 
 
 @router.get("/tags/", response_model=list[TodoTagInDB])
-async def read_tags(
+async def get_tags(
     skip: int = 0, limit: int = 100, service: TagService = Depends(get_tag_service)
 ):
     return await service.get_tags(skip=skip, limit=limit)
 
 
 @router.get("/tags/{tag_id}", response_model=TodoTagInDB)
-async def read_tag(tag_id: int, service: TagService = Depends(get_tag_service)):
+async def get_tag(tag_id: int, service: TagService = Depends(get_tag_service)):
     return await service.get_tag(tag_id)
 
 
 @router.delete("/tags/{tag_id}", response_model=TodoTagInDB)
-async def delete_tag_endpoint(
+async def delete_tag(
     tag_id: int, service: TagService = Depends(get_tag_service)
 ):
     return await service.delete_tag(tag_id)
@@ -57,20 +61,23 @@ async def delete_tag_endpoint(
 
 # Todo 路由
 @router.post("/", response_model=TodoInDB)
-async def create_todo_endpoint(
+async def create_todo(
     todo: TodoCreate,  # 使用新的 TodoCreate 模型
     service: TodoService = Depends(get_todo_service),
 ):
+    """
+    创建待办事项
+    """
     return await service.create_todo(todo)
 
 
 @router.get("/{todo_id}", response_model=TodoInDB)
-async def read_todo(todo_id: int, service: TodoService = Depends(get_todo_service)):
+async def get_todo(todo_id: int, service: TodoService = Depends(get_todo_service)):
     return await service.get_todo(todo_id)
 
 
 @router.get("/", response_model=list[TodoInDB])
-async def read_todos(
+async def get_todos(
     skip: int = 0, limit: int = 100, service: TodoService = Depends(get_todo_service)
 ):
     return await service.get_todos(skip=skip, limit=limit)
@@ -86,7 +93,7 @@ async def update_todo_item(
 
 
 @router.delete("/{todo_id}", response_model=TodoInDB)
-async def delete_todo_endpoint(
+async def delete_todo(
     todo_id: int, service: TodoService = Depends(get_todo_service)
 ):
     return await service.delete_todo(todo_id)

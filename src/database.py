@@ -1,13 +1,15 @@
-from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
-from sqlalchemy.ext.asyncio import async_sessionmaker
+# 使用 SQLAlchemy 2.0+ 的异步ORM
+from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession, async_sessionmaker
 from sqlalchemy.orm import declarative_base
 
+# 使用sqlite, aiosqlite支持异步, 若想要高并发，后续可以改为pgsql
 ASYNC_DATABASE_URL = "sqlite+aiosqlite:///./data/mypanel.db"
 
+# 创建异步数据库引擎
 engine = create_async_engine(
     ASYNC_DATABASE_URL,
-    connect_args={"check_same_thread": False},  # 允许在不同线程间共享连接
-    echo=True,  # 可以设置为 False 关闭 SQL 日志
+    connect_args={"check_same_thread": False},  # 允许SQLite在不同线程间共享连接, 如果是pgsql则不要加这个
+    echo=True,  # 打印所有执行的 SQL 语句到控制台
 )
 
 # 异步数据库会话工厂
@@ -23,6 +25,8 @@ AsyncSessionLocal = async_sessionmaker(
 Base = declarative_base()
 
 
+# fastapi的依赖注入函数, 用于给router函数传参使用数据库session, 具体原理看官方文档
+# 它传出一个 AsyncSession (异步数据库会话)对象
 async def get_db():
     async with AsyncSessionLocal() as session:
         yield session
